@@ -1,27 +1,33 @@
 package com.chicu.cakeshop.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
-import org.springframework.security.core.GrantedAuthority;
 
+import java.util.List;
 import java.util.Objects;
-
 
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
+@AllArgsConstructor
 @Entity
-public class Role implements GrantedAuthority {
+public class SubCategory {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String authority;
+    private String name; // Название подкатегории
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category; // Родительская категория
+
+    @OneToMany(mappedBy = "subCategory", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private List<Product> products; // Список продуктов
 
     @Override
     public final boolean equals(Object o) {
@@ -30,8 +36,8 @@ public class Role implements GrantedAuthority {
         Class<?> oEffectiveClass = o instanceof HibernateProxy proxy ? proxy.getHibernateLazyInitializer().getPersistentClass() : o.getClass();
         Class<?> thisEffectiveClass = this instanceof HibernateProxy proxy ? proxy.getHibernateLazyInitializer().getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
-        Role role = (Role) o;
-        return getId() != null && Objects.equals(getId(), role.getId());
+        SubCategory that = (SubCategory) o;
+        return getId() != null && Objects.equals(getId(), that.getId());
     }
 
     @Override

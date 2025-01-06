@@ -1,16 +1,11 @@
 package com.chicu.cakeshop.service;
 
-
-
-
 import com.chicu.cakeshop.exception.PancakeException;
 import com.chicu.cakeshop.exception.WrongFieldException;
 import com.chicu.cakeshop.model.User;
 
 import java.util.List;
 import java.util.Optional;
-
-
 
 public interface UserService {
 

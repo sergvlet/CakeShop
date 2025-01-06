@@ -6,7 +6,6 @@ import com.chicu.cakeshop.model.Setting;
 import com.chicu.cakeshop.repositories.SettingRepository;
 import com.chicu.cakeshop.service.SettingService;
 import jakarta.transaction.Transactional;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 @Service

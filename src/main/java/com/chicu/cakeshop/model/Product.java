@@ -1,27 +1,30 @@
 package com.chicu.cakeshop.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
-import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Objects;
-
 
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
+@AllArgsConstructor
 @Entity
-public class Role implements GrantedAuthority {
+public class Product {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String authority;
+    private String name; // Название товара
+    private String description; // Описание
+    private double price; // Цена
+
+    @ManyToOne
+    @JoinColumn(name = "subcategory_id")
+    private SubCategory subCategory; // Родительская подкатегория
 
     @Override
     public final boolean equals(Object o) {
@@ -30,8 +33,8 @@ public class Role implements GrantedAuthority {
         Class<?> oEffectiveClass = o instanceof HibernateProxy proxy ? proxy.getHibernateLazyInitializer().getPersistentClass() : o.getClass();
         Class<?> thisEffectiveClass = this instanceof HibernateProxy proxy ? proxy.getHibernateLazyInitializer().getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
-        Role role = (Role) o;
-        return getId() != null && Objects.equals(getId(), role.getId());
+        Product product = (Product) o;
+        return getId() != null && Objects.equals(getId(), product.getId());
     }
 
     @Override

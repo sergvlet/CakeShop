@@ -17,28 +17,9 @@ import java.util.Locale;
 @Controller
 @RequestMapping("/account")
 public class NotificationController {
-    private final LocaleResolver localeResolver;
-
-    public NotificationController(LocaleResolver localeResolver) {
-        this.localeResolver = localeResolver;
-    }
-
-    @GetMapping(path =  "/notification")
-    public String home(@AuthenticationPrincipal User user, @RequestParam(value = "lang", required = false) String lang,
-                       HttpServletRequest request, HttpServletResponse response, Model model) {
-
-        if ((!"ru".equals(lang) && !"ro".equals(lang))) {
-            lang = "ru";
-            Locale newLocale = new Locale(lang);
-            localeResolver.setLocale(request, response, newLocale);
-            Cookie cookie = new Cookie("lang", lang);
-            cookie.setMaxAge(30 * 24 * 60 * 60);
-            response.addCookie(cookie);
-        }
-
+    @GetMapping(path = "/notification")
+    public String home(@AuthenticationPrincipal User user, Model model) {
         model.addAttribute("user", user);
-        model.addAttribute("lang", lang);
-
         return "account/notification";
     }
 }
